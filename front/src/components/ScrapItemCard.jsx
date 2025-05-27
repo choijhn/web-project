@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Button from './Button';
 
 const Card = styled.div`
   border: 1px solid #ddd;
@@ -41,7 +42,7 @@ export default function ScrapItemCard({ item }) {
 
   const handleDelete = async () => {
     if (!confirm(`'${item.city}' 여행지를 삭제할까요?`)) return;
-    
+
     try {
       const db = await initDB();
       await deleteScrapFromDB(db, item.id);

@@ -36,8 +36,6 @@ export default function TravelPost({ data }) {
     city,
     country,
     imageUrl,
-    monthlyWeather,
-    description,
   } = data;
 
   const alreadyExists = scrapbook.some((item) => item.city === city);
