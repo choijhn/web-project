@@ -48,20 +48,10 @@ export default function MainPage() {
       });
       const image = await imageRes.json();
 
-      // 날씨
-      const weatherRes = await fetch('/api/search', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode: 'weather', query: { lat: city.latitude, lon: city.longitude } }),
-      });
-      const weather = await weatherRes.json();
-
       setTravelData({
         city: city.city,
         country: city.country,
         imageUrl: image.imageUrl || '',
-        monthlyWeather: weather.monthlyWeather || '정보 없음',
-        description: `여행지 ${city.city}에 대한 소개 문구는 준비 중입니다.`,
       });
     } catch (err) {
       console.error('🌐 랜덤 여행지 추천 실패:', err);

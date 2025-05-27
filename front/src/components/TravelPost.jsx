@@ -45,8 +45,6 @@ const AddButton = styled.button`
 export default function TravelPost({ data }) {
   const { scrapbook, addScrap } = useScrapbookStore();
 
-  if (!data) return <p>🎲 여행지를 불러오는 중...</p>;
-
   const {
     city,
     country,
@@ -66,8 +64,6 @@ export default function TravelPost({ data }) {
         city,
         country,
         imageUrl,
-        monthlyWeather,
-        description,
       };
       await addScrapbookItem(db, scrapData);
       addScrap(scrapData);
@@ -80,8 +76,6 @@ export default function TravelPost({ data }) {
     <Card>
       <Image src={imageUrl} alt={`${city}`} />
       <h3>📍 {city}, {country}</h3>
-      <p>🗺️ {description}</p>
-      <p>🌤️ {monthlyWeather}</p>
       <BlogLink
         href={`https://search.naver.com/search.naver?query=${city}+여행`}
         target="_blank"
