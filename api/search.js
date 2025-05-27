@@ -33,8 +33,8 @@ export default async function handler(req, res) {
 }
 
 async function getRandomCity() {
-  const url = 'https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=5&sort=-population';
-
+  const randomOffset = Math.floor(Math.random() * 1000);
+  const url = `https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=10&offset=${randomOffset}&sort=-population`;
   const res = await fetch(url, {
     headers: {
       'X-RapidAPI-Key': process.env.RAPIDAPI_KEY_GEO_DB,
