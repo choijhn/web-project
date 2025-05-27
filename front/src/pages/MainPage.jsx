@@ -27,12 +27,12 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-export default function MainPage () {
+export default function MainPage() {
   const [travelData, setTravelData] = useState(null);
 
   const handleRandomClick = async () => {
     try {
-      // 1. 도시 정보
+      // 도시 정보
       const cityRes = await fetch('/api/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -40,7 +40,7 @@ export default function MainPage () {
       });
       const city = await cityRes.json();
 
-      // 2. 이미지 요청
+      // 이미지
       const imageRes = await fetch('/api/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -48,7 +48,7 @@ export default function MainPage () {
       });
       const image = await imageRes.json();
 
-      // 3. 날씨 요청
+      // 날씨
       const weatherRes = await fetch('/api/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -56,12 +56,11 @@ export default function MainPage () {
       });
       const weather = await weatherRes.json();
 
-      // 4. 데이터 결합
       setTravelData({
         city: city.city,
         country: city.country,
-        imageUrl: image.imageUrl || image.url, // 실제 응답 속성 확인 필요
-        monthlyWeather: weather.monthlyWeather || '날씨 정보 없음',
+        imageUrl: image.imageUrl || '',
+        monthlyWeather: weather.monthlyWeather || '정보 없음',
         description: `여행지 ${city.city}에 대한 소개 문구는 준비 중입니다.`,
       });
     } catch (err) {
