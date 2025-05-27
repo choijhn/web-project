@@ -8,6 +8,12 @@ const Title = styled(Link)`
   color: black;
 `;
 
+const HeaderContainer = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+`;
 
 export default function Header() {
   return (
