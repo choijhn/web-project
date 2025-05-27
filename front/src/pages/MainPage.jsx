@@ -36,6 +36,10 @@ export default function MainPage() {
       });
       const image = await imageRes.json();
 
+      if (!city.city || !city.country) {
+        throw new Error('도시 정보를 불러올 수 없습니다.');
+      }
+
       setTravelData({
         city: city.city,
         country: city.country,
@@ -48,9 +52,13 @@ export default function MainPage() {
 
   return (
     <PageWrapper>
-      <Title>🎲 오늘의 랜덤 여행지</Title>
-      <Button onClick={handleRandomClick}>다른 여행지 추천받기</Button>
-      <TravelPost data={travelData} />
+      <Title>🌎 오늘의 랜덤 여행지</Title>
+      <Button onClick={handleRandomClick}>🎲 Roll the Dice 🎲</Button>
+      {travelData ? (
+        <TravelPost data={travelData} />
+      ) : (
+        <p style={{ textAlign: 'center' }}>여행지를 추천받아보세요!</p>
+      )}
     </PageWrapper>
   );
 }

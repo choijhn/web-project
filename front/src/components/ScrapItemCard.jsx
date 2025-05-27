@@ -1,6 +1,7 @@
-import React from 'react';
 import styled from 'styled-components';
 import Button from './Button';
+import useScrapbookStore from '../hooks/useScrapbookStore';
+import { initDB, deleteScrapFromDB } from '../hooks/indexedDB';
 
 const Card = styled.div`
   border: 1px solid #ddd;
