@@ -19,7 +19,7 @@ export async function initDB() {
 }
 
 // 스크랩북 아이템 추가
-export async function addScrapbookItem(db, item) {
+export async function saveScrapToDB(db, item) {
   try {
     const tx = db.transaction('scrapbook', 'readwrite'); // 트랜잭션 생성
     const store = tx.objectStore('scrapbook'); // ObjectStore 접근
@@ -33,7 +33,7 @@ export async function addScrapbookItem(db, item) {
 }
 
 // 스크랩북 전체 아이템 가져오기
-export async function getScrapbookItems(db) {
+export async function loadScrapsFromDB(db) {
   try {
     const tx = db.transaction('scrapbook', 'readonly'); // 트랜잭션 생성
     const store = tx.objectStore('scrapbook'); // ObjectStore 접근
@@ -47,7 +47,7 @@ export async function getScrapbookItems(db) {
 }
 
 // 스크랩북 아이템 삭제
-export async function deleteScrapbookItem(db, id) {
+export async function deleteScrapFromDB(db, id) {
   try {
     const tx = db.transaction('scrapbook', 'readwrite'); // 트랜잭션 생성
     const store = tx.objectStore('scrapbook'); // ObjectStore 접근
@@ -60,7 +60,7 @@ export async function deleteScrapbookItem(db, id) {
 }
 
 // 스크랩북 초기화
-export async function clearScrapbook(db) {
+export async function clearScrapsFromDB(db) {
   try {
     const tx = db.transaction('scrapbook', 'readwrite'); // 트랜잭션 생성
     const store = tx.objectStore('scrapbook'); // ObjectStore 접근

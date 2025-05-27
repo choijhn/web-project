@@ -1,7 +1,7 @@
-import React from 'react';
 import styled from 'styled-components';
 import useScrapbookStore from '../hooks/useScrapbookStore';
-import { initDB, addScrapbookItem } from '../hooks/indexedDB';
+import { initDB, saveScrapToDB } from '../hooks/indexedDB';
+import Button from './Button';
 
 const Card = styled.div`
   border: 1px solid #ccc;
@@ -29,21 +29,8 @@ const BlogLink = styled.a`
   text-decoration: underline;
 `;
 
-const AddButton = styled.button`
-  display: block;
-  margin: 1.2rem auto 0;
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
-  background-color: #1a6ed8;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
-`;
-
 export default function TravelPost({ data }) {
-  const { scrapbook, addScrap } = useScrapbookStore();
+  const { scrapbook, addScrapItem } = useScrapbookStore();
 
   const {
     city,
@@ -65,8 +52,8 @@ export default function TravelPost({ data }) {
         country,
         imageUrl,
       };
-      await addScrapbookItem(db, scrapData);
-      addScrap(scrapData);
+      await saveScrapToDB(db, scrapData);
+      addScrapItem(scrapData);
     } catch (err) {
       console.error('스크랩 추가 실패:', err);
     }
@@ -83,9 +70,9 @@ export default function TravelPost({ data }) {
       >
         🔗 {city} 여행 블로그 보기
       </BlogLink>
-      <AddButton onClick={handleAddScrap} disabled={alreadyExists}>
+      <Button onClick={handleAddScrap} disabled={alreadyExists}>
         {alreadyExists ? '✅ 이미 스크랩됨' : '📥 스크랩 추가하기'}
-      </AddButton>
+      </Button>
     </Card>
   );
 }

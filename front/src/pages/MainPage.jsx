@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-//import Header from '../components/Header';
 import TravelPost from '../components/TravelPost';
+import Button from '../components/Button';
 
 const PageWrapper = styled.div`
   max-width: 960px;
@@ -13,18 +13,6 @@ const Title = styled.h1`
   font-size: 2.2rem;
   margin-bottom: 2rem;
   text-align: center;
-`;
-
-const Button = styled.button`
-  display: block;
-  margin: 0 auto 2rem;
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
-  background-color: #1a6ed8;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
 `;
 
 export default function MainPage() {

@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import useScrapbookStore from '../hooks/useScrapbookStore';
-import { initDB, getScrapbookItems } from '../hooks/indexedDB';
-import styled from 'styled-components';
+import { initDB, loadScrapsFromDB } from '../hooks/indexedDB';import styled from 'styled-components';
 import ScrapItemCard from '../components/ScrapItemCard';
 
 const PageWrapper = styled.div`
@@ -28,7 +27,7 @@ export default function ScrapbookPage() {
     async function fetchScrapbook() {
       try {
         const db = await initDB();
-        const items = await getScrapbookItems(db);
+        const items = await loadScrapsFromDB(db);
         setScrapbook(items);
       } catch (error) {
         console.error('스크랩북 아이템 로드 실패:', error);
@@ -40,7 +39,7 @@ export default function ScrapbookPage() {
 
   return (
     <PageWrapper>
-      <Title>📚 나의 스크랩북</Title>
+      <Title>📚 스크랩북</Title>
       {scrapbook.length === 0 ? (
         <p>아직 저장된 여행지가 없어요!</p>
       ) : (

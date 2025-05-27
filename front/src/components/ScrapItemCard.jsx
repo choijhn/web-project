@@ -25,16 +25,36 @@ const BlogLink = styled.a`
   text-decoration: underline;
 `;
 
+const DeleteButton = styled(Button)`
+  background-color:rgb(255, 255, 255);
+  color: rgb(156, 156, 156);
+
+  &:hover {
+    background-color: rgb(255, 255, 255);
+    color:rgb(0, 0, 0);
+  }
+`;
+
 export default function ScrapItemCard({ item }) {
-  const { city, country, monthlyWeather, food, flightPrice, imageUrl } = item;
+  const { city, country, imageUrl } = item;
+  const { removeScrapItem } = useScrapbookStore();
+
+  const handleDelete = async () => {
+    if (!confirm(`'${item.city}' 여행지를 삭제할까요?`)) return;
+    
+    try {
+      const db = await initDB();
+      await deleteScrapFromDB(db, item.id);
+      removeScrapItem(item.id); 
+    } catch (err) {
+      console.error('스크랩 삭제 실패:', err);
+    }
+  };
 
   return (
     <Card>
       {imageUrl && <Image src={imageUrl} alt={`${city}`} />}
       <h3>📍 {city}, {country}</h3>
-      <p>🌤️ {monthlyWeather}</p>
-      <p>🍽️ {food?.join(', ')}</p>
-      <p>✈️ 항공권: {flightPrice}</p>
       <BlogLink
         href={`https://search.naver.com/search.naver?query=${city}+여행`}
         target="_blank"
@@ -42,6 +62,7 @@ export default function ScrapItemCard({ item }) {
       >
         🔗 {city} 여행 블로그 보기
       </BlogLink>
+      <DeleteButton onClick={handleDelete}>삭제</DeleteButton> 
     </Card>
   );
 }
