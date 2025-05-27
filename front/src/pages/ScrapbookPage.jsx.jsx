@@ -4,6 +4,7 @@ import { initDB, loadScrapsFromDB } from '../hooks/indexedDB';import styled from
 import ScrapItemCard from '../components/ScrapItemCard';
 
 const PageWrapper = styled.div`
+  width: 100%;
   max-width: 960px;
   margin: 0 auto;
   padding: 2rem;

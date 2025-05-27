@@ -4,6 +4,7 @@ import TravelPost from '../components/TravelPost';
 import Button from '../components/Button';
 
 const PageWrapper = styled.div`
+  width: 100%;
   max-width: 960px;
   margin: 0 auto;
   padding: 2rem;
