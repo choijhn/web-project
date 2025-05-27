@@ -49,6 +49,7 @@ async function getRandomCity() {
   });
 
   const json = await res.json();
+  console.log('[Geo DB 응답]', json);
   const cities = json.data;
 
   if (!cities || cities.length === 0) throw new Error('도시 데이터를 불러오지 못했습니다.');
