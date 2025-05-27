@@ -83,7 +83,7 @@ export default async function handler(req, res) {
 
     return res.status(400).json({ error: 'Invalid mode' });
   } catch (error) {
-    console.error('🔴 외부 API 호출 실패:', error);
+    console.error('API 오류:', error);
     return res.status(500).json({ error: 'Server error' });
   }
 }
