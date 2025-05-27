@@ -76,10 +76,6 @@ export default function MainPage() {
 
   return (
     <PageWrapper>
-      <Header>
-        <button onClick={() => (window.location.href = '/')}>홈</button>
-        <button onClick={() => (window.location.href = '/scrapbook')}>스크랩북</button>
-      </Header>
       <Title>🌎 오늘의 랜덤 여행지</Title>
       {!travelData && (
         <Button onClick={handleRandomClick} disabled={isLoading}>

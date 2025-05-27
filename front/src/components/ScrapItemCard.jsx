@@ -4,19 +4,18 @@ import useScrapbookStore from '../hooks/useScrapbookStore';
 import { initDB, deleteScrapFromDB } from '../hooks/indexedDB';
 
 const Card = styled.div`
+  width: 100%;
+  max-width: 320px;
+  height: 440px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   border: 1px solid #ddd;
   border-radius: 14px;
   padding: 1rem;
   background: #fff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  max-width: 320px;
-  margin: 0 auto;
-  margin-bottom: 1.5rem;
 `;
 
 const Image = styled.img`

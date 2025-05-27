@@ -22,9 +22,10 @@ const Title = styled.h2`
 `;
 
 const ScrapList = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
 `;
 
 export default function ScrapbookPage() {
