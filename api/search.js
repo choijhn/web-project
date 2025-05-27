@@ -1,47 +1,3 @@
-async function getRandomCity() {
-  const url = 'https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=100&sort=-population';
-
-  const res = await fetch(url, {
-    headers: {
-      'X-RapidAPI-Key': process.env.RAPIDAPI_KEY_GEO_DB,
-      'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
-    },
-  });
-
-  const data = await res.json();
-  const cities = data.data;
-  const random = cities[Math.floor(Math.random() * cities.length)];
-
-  return {
-    city: random.city,
-    country: random.country,
-    latitude: random.latitude,
-    longitude: random.longitude,
-    population: random.population,
-  };
-}
-
-async function getImage(city) {
-  const url = `https://source.unsplash.com/800x600/?${encodeURIComponent(city)},travel`;
-  return { imageUrl: url };
-}
-
-async function getWeather(lat, lon) {
-  const url = `https://climate-api.open-meteo.com/v1/climate?latitude=${lat}&longitude=${lon}&monthly_temperature=true&timezone=auto`;
-
-  const res = await fetch(url);
-  const data = await res.json();
-
-  const temps = data.monthly_temperature?.temperature_2m_max;
-  const currentMonthIndex = new Date().getMonth();
-  const monthLabel = `${currentMonthIndex + 1}월 평균 기온`;
-  const value = temps?.[currentMonthIndex];
-
-  return {
-    monthlyWeather: value ? `${monthLabel}: ${value}°C` : `${monthLabel}: 정보 없음`,
-  };
-}
-
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -60,23 +16,25 @@ export default async function handler(req, res) {
 
   try {
     if (mode === 'city') {
-      const city = await getRandomCity();
-      return res.status(200).json(city);
-    }
+  const url = 'https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=5&sort=-population';
 
-    if (mode === 'image') {
-      const result = await getImage(query.city);
-      return res.status(200).json(result);
-    }
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'X-RapidAPI-Key': process.env.RAPIDAPI_KEY_GEO_DB,
+      'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
+    },
+  });
 
-    if (mode === 'weather') {
-      const result = await getWeather(query.lat, query.lon);
-      return res.status(200).json(result);
-    }
+  const data = await response.json();
 
-    return res.status(400).json({ error: 'Invalid mode' });
+  console.log('🔍 GeoDB 응답 상태코드:', response.status);
+  console.log('🔍 GeoDB 응답 내용:', JSON.stringify(data, null, 2));
+
+  return res.status(response.status).json(data);
+}
   } catch (error) {
-    console.error('API 오류:', error);
+    console.error('🔥 API 서버 오류:', error);
     return res.status(500).json({ error: 'Server error' });
   }
 }
