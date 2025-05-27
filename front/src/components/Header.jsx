@@ -24,7 +24,7 @@ const NavButton = styled(Link)`
 export default function Header() {
   return (
     <HeaderContainer>
-      <Link to="/" >🏠</Link>
+      <span onClick={() => (window.location.href = '/')}>🏠</span>
       <Link to="/scrapbook">스크랩북</Link>
     </HeaderContainer>
   );
