@@ -9,6 +9,14 @@ const Card = styled.div`
   padding: 1rem;
   background: #fff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 320px;
+  margin: 0 auto;
+  margin-bottom: 1.5rem;
 `;
 
 const Image = styled.img`
@@ -23,7 +31,7 @@ const BlogLink = styled.a`
   display: inline-block;
   margin-top: 0.5rem;
   font-size: 0.95rem;
-  color: #1a6ed8;
+  color: #088395;
   text-decoration: underline;
 `;
 

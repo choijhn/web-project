@@ -11,6 +11,11 @@ const Card = styled.div`
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   max-width: 600px;
   margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 `;
 
 const Image = styled.img`
@@ -69,7 +74,7 @@ export default function TravelPost({ data }) {
         🔗 {city} 여행 블로그 보기
       </BlogLink>
       <Button onClick={handleAddScrap} disabled={alreadyExists}>
-        {alreadyExists ? '✅ 이미 스크랩됨' : '📥 스크랩 추가하기'}
+        {alreadyExists ? '✅ 스크랩되었습니다' : '📥 스크랩'}
       </Button>
     </Card>
   );

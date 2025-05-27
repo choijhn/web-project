@@ -7,20 +7,42 @@ const PageWrapper = styled.div`
   max-width: 960px;
   margin: 0 auto;
   padding: 2rem;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Title = styled.h1`
   font-size: 2.2rem;
   margin-bottom: 2rem;
-  text-align: center;
+`;
+
+const Header = styled.header`
+  width: 100%;
+  text-align: right;
+  margin-bottom: 1rem;
+
+  button {
+    margin-left: 0.5rem;
+    background: none;
+    border: none;
+    color: #088395;
+    font-weight: bold;
+    cursor: pointer;
+  }
 `;
 
 export default function MainPage() {
   const [travelData, setTravelData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleRandomClick = async () => {
     try {
-      // 도시 정보
+      setIsLoading(true);
+
       const cityRes = await fetch('/api/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -28,7 +50,6 @@ export default function MainPage() {
       });
       const city = await cityRes.json();
 
-      // 이미지
       const imageRes = await fetch('/api/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -47,17 +68,27 @@ export default function MainPage() {
       });
     } catch (err) {
       console.error('🌐 랜덤 여행지 추천 실패:', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <PageWrapper>
+      <Header>
+        <button onClick={() => (window.location.href = '/')}>홈</button>
+        <button onClick={() => (window.location.href = '/scrapbook')}>스크랩북</button>
+      </Header>
       <Title>🌎 오늘의 랜덤 여행지</Title>
-      <Button onClick={handleRandomClick}>🎲 Roll the Dice 🎲</Button>
+      {!travelData && (
+        <Button onClick={handleRandomClick} disabled={isLoading}>
+          {isLoading ? '로딩 중...' : '🎲 Roll the Dice 🎲'}
+        </Button>
+      )}
       {travelData ? (
         <TravelPost data={travelData} />
       ) : (
-        <p style={{ textAlign: 'center' }}>여행지를 추천받아보세요!</p>
+        <p>여행지를 추천받아보세요!</p>
       )}
     </PageWrapper>
   );

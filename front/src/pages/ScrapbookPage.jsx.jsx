@@ -7,6 +7,12 @@ const PageWrapper = styled.div`
   max-width: 960px;
   margin: 0 auto;
   padding: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 `;
 
 const Title = styled.h2`
