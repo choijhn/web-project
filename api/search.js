@@ -1,18 +1,15 @@
-import axios from 'axios';
-
 async function getRandomCity() {
-  const res = await axios.get('https://wft-geo-db.p.rapidapi.com/v1/geo/cities', {
-    params: {
-      limit: 100,
-      sort: '-population',
-    },
+  const url = 'https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=100&sort=-population';
+
+  const res = await fetch(url, {
     headers: {
       'X-RapidAPI-Key': process.env.RAPIDAPI_KEY_GEO_DB,
       'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
     },
   });
 
-  const cities = res.data.data;
+  const data = await res.json();
+  const cities = data.data;
   const random = cities[Math.floor(Math.random() * cities.length)];
 
   return {
@@ -30,17 +27,13 @@ async function getImage(city) {
 }
 
 async function getWeather(lat, lon) {
-  const res = await axios.get('https://climate-api.open-meteo.com/v1/climate', {
-    params: {
-      latitude: lat,
-      longitude: lon,
-      monthly_temperature: true,
-      timezone: 'auto',
-    },
-  });
+  const url = `https://climate-api.open-meteo.com/v1/climate?latitude=${lat}&longitude=${lon}&monthly_temperature=true&timezone=auto`;
 
-  const temps = res.data.monthly_temperature?.temperature_2m_max;
-  const currentMonthIndex = new Date().getMonth(); // 0~11
+  const res = await fetch(url);
+  const data = await res.json();
+
+  const temps = data.monthly_temperature?.temperature_2m_max;
+  const currentMonthIndex = new Date().getMonth();
   const monthLabel = `${currentMonthIndex + 1}월 평균 기온`;
   const value = temps?.[currentMonthIndex];
 
