@@ -25,7 +25,7 @@ const BlogLink = styled.a`
   display: inline-block;
   margin-top: 0.75rem;
   font-size: 0.95rem;
-  color: #1a6ed8;
+  color: #088395;
   text-decoration: underline;
 `;
 
