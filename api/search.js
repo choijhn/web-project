@@ -16,71 +16,45 @@ export default async function handler(req, res) {
 
   try {
     if (mode === 'city') {
-      const city = await getRandomCity();
-      return res.status(200).json(city);
+      const cityRes = await fetch('https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=10&sort=-population', {
+        headers: {
+          'X-RapidAPI-Key': process.env.VITE_RAPIDAPI_KEY_GEO_DB,
+          'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
+        },
+      });
+      const data = await cityRes.json();
+      const cities = data.data;
+      const random = cities[Math.floor(Math.random() * cities.length)];
+
+      return res.status(200).json({
+        city: random.city,
+        country: random.country,
+        latitude: random.latitude,
+        longitude: random.longitude,
+      });
     }
 
     if (mode === 'image') {
-      const result = await getImage(query.city);
-      return res.status(200).json(result);
+      const url = `https://source.unsplash.com/800x600/?${encodeURIComponent(query.city)},travel`;
+      return res.status(200).json({ imageUrl: url });
     }
 
     if (mode === 'weather') {
-      const result = await getWeather(query.lat, query.lon);
-      return res.status(200).json(result);
+      const weatherRes = await fetch(`https://climate-api.open-meteo.com/v1/climate?latitude=${query.lat}&longitude=${query.lon}&monthly_temperature=true&timezone=auto`);
+      const data = await weatherRes.json();
+      const temps = data.monthly_temperature?.temperature_2m_max;
+      const currentMonthIndex = new Date().getMonth();
+      const monthLabel = `${currentMonthIndex + 1}월 평균 기온`;
+      const value = temps?.[currentMonthIndex];
+
+      return res.status(200).json({
+        monthlyWeather: value ? `${monthLabel}: ${value}°C` : `${monthLabel}: 정보 없음`,
+      });
     }
 
     return res.status(400).json({ error: 'Invalid mode' });
-
   } catch (error) {
     console.error('API 오류:', error);
     return res.status(500).json({ error: 'Server error' });
   }
-}
-
-async function getRandomCity() {
-  const url = 'https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=100&sort=-population';
-
-  const res = await fetch(url, {
-    headers: {
-      'X-RapidAPI-Key': process.env.RAPIDAPI_KEY_GEO_DB,
-      'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
-    },
-  });
-
-  const json = await res.json();
-  console.log('[Geo DB 응답]', json);
-  const cities = json.data;
-
-  if (!cities || cities.length === 0) throw new Error('도시 데이터를 불러오지 못했습니다.');
-
-  const random = cities[Math.floor(Math.random() * cities.length)];
-
-  return {
-    city: random.city || random.name,
-    country: random.country,
-    latitude: random.latitude,
-    longitude: random.longitude,
-    population: random.population,
-  };
-}
-
-async function getImage(city) {
-  const url = `https://source.unsplash.com/800x600/?${encodeURIComponent(city)},travel`;
-  return { imageUrl: url };
-}
-
-async function getWeather(lat, lon) {
-  const res = await fetch(`https://climate-api.open-meteo.com/v1/climate?latitude=${lat}&longitude=${lon}&monthly_temperature=true&timezone=auto`);
-
-  const json = await res.json();
-  const temps = json.monthly_temperature?.temperature_2m_max;
-  const currentMonthIndex = new Date().getMonth();
-
-  const monthLabel = `${currentMonthIndex + 1}월 평균 기온`;
-  const value = temps?.[currentMonthIndex];
-
-  return {
-    monthlyWeather: value ? `${monthLabel}: ${value}°C` : `${monthLabel}: 정보 없음`,
-  };
 }
