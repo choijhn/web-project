@@ -1,0 +1,48 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Environment files
+.env
+.env.*.local
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Icon?
+
+# Build output
+build
+out
+
+# Coverage directory
+coverage
+
+# Dependency directories
+jspm_packages/
+
+# Misc
+*.tgz
+*.bak
+*.tmp

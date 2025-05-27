@@ -1,0 +1,55 @@
+import { useEffect } from 'react';
+import useScrapbookStore from '../hooks/useScrapbookStore';
+import { initDB, getScrapbookItems } from '../hooks/indexedDB';
+import styled from 'styled-components';
+import ScrapItemCard from '../components/ScrapItemCard';
+
+const PageWrapper = styled.div`
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem;
+`;
+
+const Title = styled.h2`
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+`;
+
+const ScrapList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+`;
+
+export default function ScrapbookPage() {
+  const { scrapbook, setScrapbook } = useScrapbookStore();
+
+  useEffect(() => {
+    async function fetchScrapbook() {
+      try {
+        const db = await initDB();
+        const items = await getScrapbookItems(db);
+        setScrapbook(items);
+      } catch (error) {
+        console.error('스크랩북 아이템 로드 실패:', error);
+      }
+    }
+
+    fetchScrapbook();
+  }, [setScrapbook]);
+
+  return (
+    <PageWrapper>
+      <Title>📚 나의 스크랩북</Title>
+      {scrapbook.length === 0 ? (
+        <p>아직 저장된 여행지가 없어요!</p>
+      ) : (
+        <ScrapList>
+          {scrapbook.map((item) => (
+            <ScrapItemCard key={item.id} item={item} />
+          ))}
+        </ScrapList>
+      )}
+    </PageWrapper>
+  );
+}
