@@ -11,6 +11,7 @@ const Card = styled.div`
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   max-width: 600px;
   margin: 0 auto;
+  gap: 1rem;
 
   display: flex;
   flex-direction: column;
